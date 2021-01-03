@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
 from datetime import datetime
+from .models import ArticleModel
 
 # Create your views here.
 
@@ -22,20 +23,7 @@ class Home(View):
 class Article(View):
 
     def get(self, request):
-        articles = [
-            {
-                "title": "Title",
-                "category": "Test",
-                "author": "Myself",
-                "content": "Just some lorem ipsum content",
-                "creation_date": datetime.now()
-            },
-            {
-                "title": "Title2",
-                "category": "Test2",
-                "author": "Myself",
-                "content": "Just some lorem ipsum content 2",
-                "creation_date": datetime.now()
-            }
-        ]
+
+        articles = ArticleModel.objects.all()
+
         return render(request,'articles.html', {"articles":articles})
