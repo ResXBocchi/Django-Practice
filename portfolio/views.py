@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.views import View
 from datetime import datetime
 from .models import ArticleModel
@@ -46,3 +46,13 @@ class Article(View):
                                     created_at=dt)
 
         return redirect('/portfolio/articles')
+
+
+class ArticleDetails(View):
+    def get(self, request, id):
+        try:
+            article = ArticleModel.objects.get(id=id)
+            return render(request, "article_details.html", {"article": article})
+        except ArticleModel.DoesNotExist:
+            return HttpResponseNotFound()
+
